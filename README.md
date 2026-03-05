@@ -1,2 +1,0 @@
-# abdyelgonzalez.github.io
-Page
