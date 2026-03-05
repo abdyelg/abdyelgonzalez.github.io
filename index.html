@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abdyel González — Software Engineer & Tech Lead</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0f;
+      --bg2:       #111118;
+      --bg3:       #16161f;
+      --border:    rgba(255,255,255,0.07);
+      --accent:    #6c63ff;
+      --accent2:   #00e5ff;
+      --text:      #e2e2f0;
+      --muted:     #7a7a99;
+      --card:      rgba(255,255,255,0.04);
+      --radius:    14px;
+      --nav-h:     64px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: var(--nav-h);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5vw, 5rem);
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Fira Code', monospace;
+      font-size: 1.1rem;
+      color: var(--accent2);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex; gap: 2rem; list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0; right: 0; height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--text); border-radius: 2px; transition: 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: calc(var(--nav-h) + 2rem) clamp(1.5rem, 5vw, 5rem) 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(108,99,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(108,99,255,0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); pointer-events: none;
+    }
+    .orb1 { width: 420px; height: 420px; background: rgba(108,99,255,0.18); top: -80px; left: -100px; }
+    .orb2 { width: 350px; height: 350px; background: rgba(0,229,255,0.12); bottom: 0; right: -80px; }
+
+    .hero-inner { max-width: 800px; position: relative; z-index: 1; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(108,99,255,0.12);
+      border: 1px solid rgba(108,99,255,0.3);
+      color: var(--accent);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-badge::before { content: '●'; font-size: 0.6rem; animation: pulse 2s infinite; }
+
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+    .hero-name {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero-name .highlight {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-title {
+      margin-top: 1rem;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--muted);
+      font-family: 'Fira Code', monospace;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .cursor {
+      display: inline-block;
+      width: 2px; height: 1.1em;
+      background: var(--accent2);
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+
+    .hero-bio {
+      margin-top: 1.5rem;
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 1rem;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      margin-top: 2.5rem;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 0.75rem 1.75rem;
+      border-radius: 10px;
+      font-weight: 600; font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer; border: none;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #9b5de5);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(108,99,255,0.35);
+    }
+    .btn-primary:hover { box-shadow: 0 8px 32px rgba(108,99,255,0.5); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* SECTIONS */
+    section { padding: 6rem clamp(1.5rem, 5vw, 5rem); }
+    .section-inner { max-width: 900px; margin: 0 auto; }
+
+    .section-label {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .section-label::before { content: '//'; color: var(--muted); }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .divider {
+      width: 48px; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ABOUT */
+    #about { background: var(--bg2); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
+    }
+    .about-text strong { color: var(--accent2); font-weight: 600; }
+
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .stat-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .stat-num {
+      font-size: 2rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.07em; }
+
+    /* EXPERIENCE */
+    #experience { background: var(--bg); }
+
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 0 0 3rem 2rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .timeline-item.visible { opacity: 1; transform: none; }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute; left: -2.45rem; top: 8px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 12px rgba(108,99,255,0.6);
+    }
+
+    .timeline-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .timeline-card:hover { border-color: var(--accent); transform: translateX(4px); }
+
+    .timeline-company { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+    .timeline-role {
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--accent2);
+      margin-top: 2px;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* CONTACT */
+    #contact { background: var(--bg2); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .contact-card {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    }
+    .contact-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      background: rgba(108,99,255,0.06);
+    }
+    .contact-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .contact-icon.email    { background: rgba(108,99,255,0.15); }
+    .contact-icon.twitter  { background: rgba(29,161,242,0.15); }
+    .contact-icon.linkedin { background: rgba(0,119,181,0.15); }
+    .contact-icon.github   { background: rgba(255,255,255,0.08); }
+
+    .contact-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+    .contact-value { font-weight: 600; font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .contact-card > div:last-child { min-width: 0; overflow: hidden; }
+
+    .resume-cta {
+      margin-top: 3rem; padding: 2.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-align: center;
+    }
+    .resume-cta p:first-child { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .resume-cta p:last-of-type { color: var(--muted); margin-bottom: 1.5rem; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-family: 'Fira Code', monospace;
+    }
+    footer span { color: var(--accent); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+      .nav-links {
+        display: none; position: absolute; top: var(--nav-h); left: 0; right: 0;
+        flex-direction: column; gap: 0;
+        background: var(--bg2); border-bottom: 1px solid var(--border);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li a { display: block; padding: 1rem 2rem; border-bottom: 1px solid var(--border); }
+      .hamburger { display: flex; }
+      .about-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#hero"><span>&lt;</span>abdyel<span>/&gt;</span></a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="hero-inner">
+      <div class="hero-badge">Available for collaboration</div>
+      <h1 class="hero-name">
+        Abdyel<br><span class="highlight">González</span>
+      </h1>
+      <p class="hero-title">
+        &gt;&nbsp;<span id="typed"></span><span class="cursor"></span>
+      </p>
+      <p class="hero-bio">
+        Software Engineer and Tech Lead based in <strong style="color:var(--accent2)">Puerto Rico</strong>,
+        passionate about building better tools that help people perform their work and improve their lives.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.17 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.66-.66a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+          Get in touch
+        </a>
+        <a href="#experience" class="btn btn-outline">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          View experience
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <p class="section-label fade-in">About me</p>
+      <h2 class="section-title fade-in">Who I am</h2>
+      <div class="divider fade-in"></div>
+      <div class="about-grid">
+        <div class="about-text fade-in">
+          <p>
+            I am a <strong>Software Engineer and Tech Lead</strong> working for
+            <strong>Truenorth Corporation</strong> in Puerto Rico. My goal is to
+            provide better tools to people to perform their work and improve their lives.
+          </p>
+          <p>
+            I love teamwork and truly appreciate when all team members collaborate
+            with the design and development as a mutual goal — because the best
+            solutions are always built together.
+          </p>
+          <p>
+            With experience across fintech, mobile, enterprise, and telecommunications,
+            I bring a broad perspective to every challenge I take on.
+          </p>
+        </div>
+        <div class="about-stats fade-in">
+          <div class="stat-card">
+            <div class="stat-num">6+</div>
+            <div class="stat-label">Companies</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">10+</div>
+            <div class="stat-label">Years exp.</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">PR</div>
+            <div class="stat-label">Based in</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Curiosity</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-inner">
+      <p class="section-label fade-in">Career</p>
+      <h2 class="section-title fade-in">Experience</h2>
+      <div class="divider fade-in"></div>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-card">
+            <div class="timeline-company">Truenorth Corporation</div>
+            <div class="timeline-role">Tech Lead</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-card">
+            <div class="timeline-company">HoyosLabs Inc</div>
+            <div class="timeline-role">Software Engineer</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-card">
+            <div class="timeline-company">Banco Popular</div>
+            <div class="timeline-role">Sr Software Developer</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-card">
+            <div class="timeline-company">OpenMobile</div>
+            <div class="timeline-role">Sr Software Developer</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-card">
+            <div class="timeline-company">WovenWare</div>
+            <div class="timeline-role">Java Software Developer</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-card">
+            <div class="timeline-company">T-Mobile</div>
+            <div class="timeline-role">Sales Engineer</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <p class="section-label fade-in">Get in touch</p>
+      <h2 class="section-title fade-in">Let's know better</h2>
+      <div class="divider fade-in"></div>
+      <p class="fade-in" style="color:var(--muted); max-width:500px;">
+        Whether you want to collaborate, have a question, or just say hi — feel free to reach out.
+      </p>
+      <div class="contact-grid fade-in">
+        <a href="mailto:abdy.sk@gmail.com" class="contact-card">
+          <div class="contact-icon email">✉️</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">abdy.sk@gmail.com</div>
+          </div>
+        </a>
+        <!-- Update the href below with your real Twitter/X handle -->
+        <a href="https://twitter.com/abdyel" target="_blank" rel="noopener" class="contact-card">
+          <div class="contact-icon twitter">🐦</div>
+          <div>
+            <div class="contact-label">Twitter / X</div>
+            <div class="contact-value">@abdyel</div>
+          </div>
+        </a>
+        <!-- Update the href below with your real LinkedIn URL -->
+        <a href="https://linkedin.com/in/abdyelgonzalez" target="_blank" rel="noopener" class="contact-card">
+          <div class="contact-icon linkedin">💼</div>
+          <div>
+            <div class="contact-label">LinkedIn</div>
+            <div class="contact-value">Abdyel González</div>
+          </div>
+        </a>
+        <!-- Update the href below with your real GitHub URL -->
+        <a href="https://github.com/abdyelgonzalez" target="_blank" rel="noopener" class="contact-card">
+          <div class="contact-icon github">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          </div>
+          <div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-value">abdyelgonzalez</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="resume-cta fade-in">
+        <p>Want a copy of my resume?</p>
+        <p>Get in touch or download it directly.</p>
+        <!-- Replace href="#" with the path to your resume file, e.g. href="resume.pdf" -->
+        <a href="#" class="btn btn-primary" style="display:inline-flex;">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Resume
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>©</span> 2026 Abdyel González &nbsp;·&nbsp; Built with <span>♥</span> &nbsp;·&nbsp; <span>abdyelgonzalez.github.io</span>
+  </footer>
+
+  <script>
+    // Hamburger menu
+    const ham = document.getElementById('hamburger');
+    const navEl = document.getElementById('navLinks');
+    ham.addEventListener('click', () => {
+      ham.classList.toggle('open');
+      navEl.classList.toggle('open');
+    });
+    navEl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      ham.classList.remove('open');
+      navEl.classList.remove('open');
+    }));
+
+    // Typing animation
+    const roles = ['Software Engineer', 'Tech Lead', 'Problem Solver', 'Team Player'];
+    let ri = 0, ci = 0, deleting = false;
+    const typedEl = document.getElementById('typed');
+    function type() {
+      const current = roles[ri];
+      if (!deleting) {
+        typedEl.textContent = current.slice(0, ++ci);
+        if (ci === current.length) { deleting = true; return setTimeout(type, 1800); }
+      } else {
+        typedEl.textContent = current.slice(0, --ci);
+        if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; }
+      }
+      setTimeout(type, deleting ? 60 : 100);
+    }
+    type();
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in, .timeline-item').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
