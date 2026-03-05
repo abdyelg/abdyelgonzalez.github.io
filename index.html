@@ -119,7 +119,21 @@
     .orb1 { width: 420px; height: 420px; background: rgba(108,99,255,0.18); top: -80px; left: -100px; }
     .orb2 { width: 350px; height: 350px; background: rgba(0,229,255,0.12); bottom: 0; right: -80px; }
 
-    .hero-inner { max-width: 800px; position: relative; z-index: 1; }
+    .hero-inner {
+      max-width: 800px; position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 3rem;
+    }
+
+    .hero-photo {
+      width: 180px; height: 180px; flex-shrink: 0;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(108,99,255,0.5);
+      box-shadow: 0 0 0 6px rgba(108,99,255,0.1), 0 8px 40px rgba(0,0,0,0.4);
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-text { flex: 1; }
 
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
@@ -400,6 +414,9 @@
       .nav-links li a { display: block; padding: 1rem 2rem; border-bottom: 1px solid var(--border); }
       .hamburger { display: flex; }
       .about-grid { grid-template-columns: 1fr; }
+      .hero-inner { flex-direction: column; text-align: center; gap: 2rem; }
+      .hero-photo { width: 140px; height: 140px; }
+      .hero-actions { justify-content: center; }
     }
   </style>
 </head>
@@ -423,26 +440,31 @@
     <div class="orb orb1"></div>
     <div class="orb orb2"></div>
     <div class="hero-inner">
-      <div class="hero-badge">Independent Consultant</div>
-      <h1 class="hero-name">
-        Abdyel<br><span class="highlight">González</span>
-      </h1>
-      <p class="hero-title">
-        &gt;&nbsp;<span id="typed"></span><span class="cursor"></span>
-      </p>
-      <p class="hero-bio">
-        Software Engineer and Tech Lead based in <strong style="color:var(--accent2)">Puerto Rico</strong>,
-        passionate about building better tools that help people perform their work and improve their lives.
-      </p>
-      <div class="hero-actions">
-        <a href="#contact" class="btn btn-primary">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.17 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.66-.66a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
-          Get in touch
-        </a>
-        <a href="#experience" class="btn btn-outline">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          View experience
-        </a>
+      <img class="hero-photo"
+           src="profile.JPG"
+           alt="Abdyel González" />
+      <div class="hero-text">
+        <div class="hero-badge">Independent Consultant</div>
+        <h1 class="hero-name">
+          Abdyel<br><span class="highlight">González</span>
+        </h1>
+        <p class="hero-title">
+          &gt;&nbsp;<span id="typed"></span><span class="cursor"></span>
+        </p>
+        <p class="hero-bio">
+          Software Engineer and Tech Lead based in <strong style="color:var(--accent2)">Puerto Rico</strong>,
+          passionate about building better tools that help people perform their work and improve their lives.
+        </p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.17 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.66-.66a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+            Get in touch
+          </a>
+          <a href="#experience" class="btn btn-outline">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            View experience
+          </a>
+        </div>
       </div>
     </div>
   </section>
