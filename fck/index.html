@@ -1,28 +1,106 @@
 <!DOCTYPE html>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<html>
+<html lang="es">
 <head>
-  <title>Mi Video Protegido</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Video</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+    }
+
+    /* Capa transparente encima del video para bloquear interacción directa */
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      background: transparent;
+      cursor: default;
+    }
+  </style>
 </head>
 <body>
-  <div class="center">
-    <video width="600" height="800" loop autoplay muted controls>
+
+  <div class="video-wrapper">
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      disablePictureInPicture
+      disableRemotePlayback
+      controlsList="nodownload nofullscreen noremoteplayback"
+      preload="auto"
+    >
       <source src="fkuVideo.mp4" type="video/mp4">
-      Your browser does not support the video tag.
     </video>
+    <!-- Overlay para bloquear clic derecho y arrastre del video -->
+    <div class="video-overlay"></div>
   </div>
+
   <script>
-    document.addEventListener('contextmenu', event => event.preventDefault());
+    (function () {
+      // Bloquear menú contextual en toda la página
+      document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+        return false;
+      });
+
+      // Bloquear arrastre de elementos
+      document.addEventListener('dragstart', function (e) {
+        e.preventDefault();
+        return false;
+      });
+
+      // Bloquear atajos de teclado comunes (F12, Ctrl+S, Ctrl+U, Ctrl+Shift+I/J/C)
+      document.addEventListener('keydown', function (e) {
+        var forbiddenKeys = [
+          e.key === 'F12',
+          (e.ctrlKey || e.metaKey) && e.key === 's',
+          (e.ctrlKey || e.metaKey) && e.key === 'u',
+          (e.ctrlKey || e.metaKey) && e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase()),
+        ];
+        if (forbiddenKeys.some(Boolean)) {
+          e.preventDefault();
+          return false;
+        }
+      });
+
+      // Bloquear selección de texto/elementos
+      document.addEventListener('selectstart', function (e) {
+        e.preventDefault();
+      });
+    })();
   </script>
+
 </body>
 </html>
-
-<style>
-  video {
-    max-width: 100%;
-    height: auto;
-  }
-  .center {
-      text-align: center;
-  }
-</style>
